@@ -6,7 +6,7 @@
 
     <groupId>lu.jimenez.research</groupId>
     <artifactId>FileMetrics</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1</version>
 
     <properties>
         <kotlin.version>1.0.0-beta-4584</kotlin.version>
@@ -82,8 +82,8 @@
         </dependency>
         <dependency>
             <groupId>lu.jimenez.research</groupId>
-            <artifactId>antlr</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <artifactId>joern-antlr</artifactId>
+            <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.spek</groupId>
