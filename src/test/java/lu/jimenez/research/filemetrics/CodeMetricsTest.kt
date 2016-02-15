@@ -18,50 +18,8 @@ import java.nio.file.Paths
 /**
  * Created by Matthieu Jimenez on 29/01/2016.
  */
-class CodeMetricsTest : Spek() {
-    val path = javaClass.classLoader.getResource("").path
+class CodeMetricsTest{
 
-    init {
-        val input = """int ddg_simplest_test()
-{
-// Make sure x propagates to foo
-int x = 0;
-foo(x);
-}
-
-int ddg_test_struct()
-{
-struct my_struct foo;
-foo.bar = 10;
-copy_somehwere(foo);
-}"""
-        val input2 = "x = y;"
-        val input3 = String(Files.readAllBytes(Paths.get(path + "/cfile/tcp.c")))
-        val input4 = String(Files.readAllBytes(Paths.get(path + "/cfile/inode.c")))
-        val input5 = String(Files.readAllBytes(Paths.get(path + "/cfile/security.c")))
-        given("a Parser") {
-            val cm = CodeMetrics(input4)
-            /** on("calculating the number of loc") {
-            val loc = cm.linesOfCode
-            it("should return 13") {
-            shouldEqual(12, loc)
-            }
-            }
-            on("calculating assignement") {
-            val decl = cm.countDeclFunction()
-            it("should return 6") {
-            shouldEqual(6, decl)
-            }
-            }*/
-            on("complexity") {
-                //TODO
-                it("") {
-                    shouldBeTrue(true)
-                }
-            }
-        }
-
-    }
 
     companion object UtilitaryFunctions {
         fun parseAndWalk(input: String): ASTNode {

@@ -9,8 +9,9 @@
     <version>0.1</version>
 
     <properties>
-        <kotlin.version>1.0.0-beta-4584</kotlin.version>
+        <kotlin.version>1.0.0</kotlin.version>
         <dokka.version>0.9.4</dokka.version>
+        <spek.version>0.1.195</spek.version>
     </properties>
 
 
@@ -88,7 +89,7 @@
         <dependency>
             <groupId>org.jetbrains.spek</groupId>
             <artifactId>spek</artifactId>
-            <version>0.1.188</version>
+            <version>${spek.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
