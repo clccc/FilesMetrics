@@ -261,19 +261,19 @@ class CodeMetrics(val fileContent: String) {
      *
      * @return map of function signature (key) and its FANIN (value)
      */
-    fun fanIn(mapOfCall: Map<String, List<String>>? = null): List<Int> {
+    fun fanIn(mapOfCall: Map<String, List<String>>? = null):  Map<String, Int>  {
         var mapOfCalls = mapOfCall
         if (mapOfCall == null) {
             mapOfCalls = GlobalASTFunctions.mapOfCallMadeByFunctions(listofNode)
         }
-        val listofFanIn = HashMap<String, Int>()
+        val mapofFanIn = HashMap<String, Int>()
         for (node in listofNode) {
             if (node is FunctionDef) {
                 val nameFunction = node.name.escapedCodeStr
-                listofFanIn.put(nameFunction, MetricsFunctions.fanInOfFunction(node, mapOfCalls!!))
+                mapofFanIn.put(nameFunction, MetricsFunctions.fanInOfFunction(node, mapOfCalls!!))
             }
         }
-        return listOf()
+        return mapofFanIn
     }
 
     /**
