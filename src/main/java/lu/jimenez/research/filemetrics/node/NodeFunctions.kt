@@ -120,7 +120,7 @@ object NodeFunctions {
         val listcall = ArrayList<String>()
         if (astNode is Callee)
             listcall.add(astNode.escapedCodeStr)
-        if (astNode.childCount > 0) {
+        if (astNode.children !=null) {
             for (child  in astNode.children) {
                 listcall.addAll(listofCallInASTNode(child))
             }
@@ -177,7 +177,7 @@ object NodeFunctions {
             }
         } else if (astnode is CallExpression) {
             for (child in astnode.children) {
-                if (child is ArgumentList) {
+                if (child is ArgumentList && child.children != null) {
                     for (argument in child.children)
                         listOfIdentifier.addAll(listofMainIdentifierofANode(argument))
                     break

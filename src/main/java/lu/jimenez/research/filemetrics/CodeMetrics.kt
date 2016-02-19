@@ -78,44 +78,52 @@ class CodeMetrics(val fileContent: String) {
         val fc = fileContent.split("\n")
         val lines = fc.size
         var i = 0
-        while (i < lines) {
-            var studiedline = fc[i]
-            //Multi Line Comment (Blocking Metric)
-            if (studiedline.contains("/*")) {
-                commentingLines++
-                while (!studiedline.contains("*/")) {
+        var finito = false
+        try {
+            while (i < lines) {
+                var studiedline = fc[i]
+                //Multi Line Comment (Blocking Metric)
+                if (studiedline.contains("/*")) {
                     commentingLines++
+                    while (!studiedline.contains("*/")) {
+                        commentingLines++
+                        i++
+                        studiedline = fc[i]
+                    }
+                }
+                if (!finito) {
+                    //Single Line Comment(Not Blocking Metric)
+                    if (studiedline.contains("//")) {
+                        commentingLines++
+                    }
+                    //Blank Line
+                    if (studiedline.isEmpty()) {
+                        blankLines++
+                    } else {
+                        //Preprocessor Lines
+                        if (studiedline.startsWith("#")) {
+                            preprocessorLines++
+                        } else {
+                            linesOfCode++
+                        }
+                    }
                     i++
-                    studiedline = fc[i]
                 }
-            }
-            //Single Line Comment(Not Blocking Metric)
-            if (studiedline.contains("//")) {
-                commentingLines++
-            }
-            //Blank Line
-            if (studiedline.isEmpty()) {
-                blankLines++
-            } else {
-                //Preprocessor Lines
-                if (studiedline.startsWith("#")) {
-                    preprocessorLines++
-                } else {
-                    linesOfCode++
-                }
-            }
-            i++
 
+            }
+        } catch(e: ArrayIndexOutOfBoundsException) {
+            e.printStackTrace()
+        } finally {
+            val parser = ANTLRCModuleParserDriver()
+            val walker = TestASTWalker()
+            parser.addObserver(walker)
+
+            val inputStream = ANTLRInputStream(compatibleFileContent())
+            val lex = ModuleLexer(inputStream)
+            val token = TokenSubStream(lex)
+            parser.parseAndWalkTokenStream(token)
+            listofNode = walker.codeItems
         }
-        val parser = ANTLRCModuleParserDriver()
-        val walker = TestASTWalker()
-        parser.addObserver(walker)
-
-        val inputStream = ANTLRInputStream(compatibleFileContent())
-        val lex = ModuleLexer(inputStream)
-        val token = TokenSubStream(lex)
-        parser.parseAndWalkTokenStream(token)
-        listofNode = walker.codeItems
     }
 
     /****************************************************************************************************************
@@ -261,7 +269,7 @@ class CodeMetrics(val fileContent: String) {
      *
      * @return map of function signature (key) and its FANIN (value)
      */
-    fun fanIn(mapOfCall: Map<String, List<String>>? = null):  Map<String, Int>  {
+    fun fanIn(mapOfCall: Map<String, List<String>>? = null): Map<String, Int> {
         var mapOfCalls = mapOfCall
         if (mapOfCall == null) {
             mapOfCalls = GlobalASTFunctions.mapOfCallMadeByFunctions(listofNode)

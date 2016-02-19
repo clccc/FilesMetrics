@@ -115,7 +115,7 @@ object ASTFunctions {
         for (vertice in cfg.vertices) {
             if (vertice is ASTNodeContainer) {
                 val astnode = vertice.astNode
-                if (astnode is ExpressionStatement) {
+                if (astnode is ExpressionStatement && astnode.children !=null) {
                     for (identifier in astnode.children) {
                         if (identifier is AssignmentExpr) {
                             val ident: Expression = identifier.left
