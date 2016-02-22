@@ -80,7 +80,7 @@ class CodeMetrics(val fileContent: String) {
         var i = 0
         var finito = false
         try {
-            while (i < lines) {
+            while (i < lines && !finito ) {
                 var studiedline = fc[i]
                 //Multi Line Comment (Blocking Metric)
                 if (studiedline.contains("/*")) {
@@ -88,7 +88,9 @@ class CodeMetrics(val fileContent: String) {
                     while (!studiedline.contains("*/")) {
                         commentingLines++
                         i++
-                        studiedline = fc[i]
+                        if (i>0 && i< lines)
+                            studiedline = fc[i]
+                        else finito = true
                     }
                 }
                 if (!finito) {
@@ -107,11 +109,10 @@ class CodeMetrics(val fileContent: String) {
                             linesOfCode++
                         }
                     }
-                    i++
                 }
-
+                i++
             }
-        } catch(e: ArrayIndexOutOfBoundsException) {
+        } catch(e: IndexOutOfBoundsException) {
             e.printStackTrace()
         } finally {
             val parser = ANTLRCModuleParserDriver()
