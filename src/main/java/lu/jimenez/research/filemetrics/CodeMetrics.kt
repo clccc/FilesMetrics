@@ -30,7 +30,7 @@ package lu.jimenez.research.filemetrics
 import antlr.C.ModuleLexer
 import ast.ASTNode
 import ast.functionDef.FunctionDef
-import lu.jimenez.research.filemetrics.ast.TestASTWalker
+import lu.jimenez.research.filemetrics.ast.GlobalASTWalker
 import lu.jimenez.research.filemetrics.function.MetricsFunctions
 import lu.jimenez.research.filemetrics.global.GlobalASTFunctions
 import lu.jimenez.research.filemetrics.node.NodeFunctions
@@ -116,7 +116,7 @@ class CodeMetrics(val fileContent: String) {
             e.printStackTrace()
         } finally {
             val parser = ANTLRCModuleParserDriver()
-            val walker = TestASTWalker()
+            val walker = GlobalASTWalker()
             parser.addObserver(walker)
 
             val inputStream = ANTLRInputStream(compatibleFileContent())

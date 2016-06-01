@@ -276,13 +276,6 @@ object MetricsFunctions {
             }
             interest
         }
-        /** listOfExpression = listOfExpression.filter { name ->
-        var interest = false
-        for (variable in listofUninterstingVariable) {
-        if (name.startsWith(variable)) interest = false
-        }
-        interest
-        }*/
         fanOut += HashSet(listOfExpression).size
 
         return fanOut

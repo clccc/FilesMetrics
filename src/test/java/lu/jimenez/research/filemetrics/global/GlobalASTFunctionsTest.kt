@@ -25,7 +25,9 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 package lu.jimenez.research.filemetrics.global
 
+import ast.ASTNode
 import lu.jimenez.research.filemetrics.CodeMetricsTest
+import lu.jimenez.research.filemetrics.ast.VisitingAST
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.shouldBeTrue
 import org.jetbrains.spek.api.shouldEqual
@@ -48,7 +50,9 @@ class GlobalASTFunctionsTest : Spek() {
             int main()
             {
                 int i, sum = 0;
+                int  *ip;        /* pointer variable declaration */
 
+                ip = &i;  /* store address of var in pointer variable*/
                 for ( i = 1; i <= LAST; i++ ) {
                 sum += i;
             } /*-for-*/
@@ -56,7 +60,13 @@ class GlobalASTFunctionsTest : Spek() {
 
             return 0;
             }"""
+
             val listOfNode = CodeMetricsTest.parseAndWalkModule(addC)
+            //CodeMetricsTest.tryToWork(listOfNode)
+            for(i in listOfNode)
+                VisitingAST.whenASTNode(i)
+            val lex = CodeMetricsTest.parseModule(addC)
+            print(lex.allTokens)
 
             on("listing the function") {
                 val functionList = GlobalASTFunctions.listofFunctionName(listOfNode)
@@ -93,5 +103,6 @@ class GlobalASTFunctionsTest : Spek() {
             }
         }
     }
+
 
 }

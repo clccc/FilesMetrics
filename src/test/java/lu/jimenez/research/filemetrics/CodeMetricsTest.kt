@@ -2,9 +2,11 @@ package lu.jimenez.research.filemetrics
 
 import antlr.C.FunctionLexer
 import antlr.C.ModuleLexer
+import antlr.C.ModuleParser
 import ast.ASTNode
-import lu.jimenez.research.filemetrics.ast.TestASTWalker
+import lu.jimenez.research.filemetrics.ast.GlobalASTWalker
 import org.antlr.v4.runtime.ANTLRInputStream
+import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.shouldBeTrue
@@ -38,6 +40,12 @@ class CodeMetricsTest{
             return parser.parseString(input)
         }
 
+        fun parseModule(input: String):ModuleLexer{
+            val parser = ANTLRCModuleParserDriver()
+            val lex =  ModuleLexer(ANTLRInputStream(input));
+            return lex
+        }
+
         private fun tokenStreamFromString(input: String): TokenSubStream {
             val inputStream = ANTLRInputStream(input)
             val lex = FunctionLexer(inputStream)
@@ -47,15 +55,26 @@ class CodeMetricsTest{
 
         fun parseAndWalkModule(input: String): List<ASTNode> {
             val parser = ANTLRCModuleParserDriver()
-            val walker = TestASTWalker()
+            val walker = GlobalASTWalker()
             parser.addObserver(walker)
 
             val inputStream = ANTLRInputStream(Regex(" NULL").replace(input, " 0"))
             val lex = ModuleLexer(inputStream)
             val token = TokenSubStream(lex)
             parser.parseAndWalkTokenStream(token)
+            //println(walker.codeItems.toString())
             return walker.codeItems
 
+        }
+        fun tryToWork(list: List<ASTNode>?) {
+            if (list != null) {
+                for (i in list) {
+                    print(i.typeAsString + " ")
+                    if (i.escapedCodeStr != "null")
+                        print(i.escapedCodeStr + " ")
+                    tryToWork(i.children)
+                }
+            }
         }
     }
 }

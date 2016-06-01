@@ -6,7 +6,10 @@ import ast.walking.ASTWalker
 import org.antlr.v4.runtime.ParserRuleContext
 import java.util.*
 
-class TestASTWalker : ASTWalker() {
+/**
+ * Simple AST walker
+ */
+class GlobalASTWalker : ASTWalker() {
 
     var codeItems: MutableList<ASTNode>
 
