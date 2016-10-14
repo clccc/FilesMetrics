@@ -56,7 +56,7 @@ import java.util.*
  *
  *
  */
-class CodeMetrics(val fileContent: String) {
+class CodeMetrics(val fileContent: String, listofNode: MutableList<ASTNode> = mutableListOf()) {
 
     //Basic Metric (Preprocessed)
     var blankLines = 0
@@ -80,7 +80,7 @@ class CodeMetrics(val fileContent: String) {
         var i = 0
         var finito = false
         try {
-            while (i < lines && !finito ) {
+            while (i < lines && !finito) {
                 var studiedline = fc[i]
                 //Multi Line Comment (Blocking Metric)
                 if (studiedline.contains("/*")) {
@@ -88,7 +88,7 @@ class CodeMetrics(val fileContent: String) {
                     while (!studiedline.contains("*/")) {
                         commentingLines++
                         i++
-                        if (i>0 && i< lines)
+                        if (i > 0 && i < lines)
                             studiedline = fc[i]
                         else finito = true
                     }
@@ -115,15 +115,17 @@ class CodeMetrics(val fileContent: String) {
         } catch(e: IndexOutOfBoundsException) {
             e.printStackTrace()
         } finally {
-            val parser = ANTLRCModuleParserDriver()
-            val walker = GlobalASTWalker()
-            parser.addObserver(walker)
+            if (listofNode.size == 0) {
+                val parser = ANTLRCModuleParserDriver()
+                val walker = GlobalASTWalker()
+                parser.addObserver(walker)
 
-            val inputStream = ANTLRInputStream(compatibleFileContent())
-            val lex = ModuleLexer(inputStream)
-            val token = TokenSubStream(lex)
-            parser.parseAndWalkTokenStream(token)
-            listofNode = walker.codeItems
+                val inputStream = ANTLRInputStream(compatibleFileContent())
+                val lex = ModuleLexer(inputStream)
+                val token = TokenSubStream(lex)
+                parser.parseAndWalkTokenStream(token)
+                this.listofNode = walker.codeItems
+            } else this.listofNode = listofNode
         }
     }
 

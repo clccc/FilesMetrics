@@ -9,8 +9,8 @@
     <version>0.1</version>
 
     <properties>
-        <kotlin.version>1.0.0</kotlin.version>
-        <dokka.version>0.9.4</dokka.version>
+        <kotlin.version>1.0.4</kotlin.version>
+        <dokka.version>0.9.8</dokka.version>
         <spek.version>0.1.195</spek.version>
     </properties>
 
@@ -58,6 +58,7 @@
                     <execution>
                         <phase>pre-site</phase>
                         <goals>
+
                             <goal>dokka</goal>
                         </goals>
                     </execution>
