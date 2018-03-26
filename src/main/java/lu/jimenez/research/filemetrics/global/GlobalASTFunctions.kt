@@ -83,6 +83,7 @@ object GlobalASTFunctions {
      *
      * @return map of function name (key) and its calls (value)
      */
+    @JvmStatic
     fun mapOfCallMadeByFunctions(listnode: List<ASTNode>): Map<String, List<String>> {
         val map = HashMap<String, List<String>>()
         for (node in listnode) {

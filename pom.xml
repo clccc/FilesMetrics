@@ -9,7 +9,6 @@
     <version>0.1</version>
 
     <properties>
-        <kotlin.version>1.0.4</kotlin.version>
         <dokka.version>0.9.8</dokka.version>
         <spek.version>0.1.195</spek.version>
     </properties>
@@ -21,7 +20,7 @@
             <plugin>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
-                <version>${kotlin.version}</version>
+                <version>1.2.30</version>
 
                 <executions>
                     <execution>
@@ -80,7 +79,7 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
-            <version>${kotlin.version}</version>
+            <version>1.2.30</version>
         </dependency>
         <dependency>
             <groupId>lu.jimenez.research</groupId>
