@@ -1,12 +1,14 @@
-#FileMetrics
+# FileMetrics
 
-##Introduction
+## Introduction
+
 This project aims at providing a library for computing common metrics of a C file from Java program.
 The analysis is based on the result provided by the [joern tool](https://github.com/fabsx00/joern).
 To allow a better handling of dependency the tool has been ported organized for maven and only the parts relevant to this project were kept.
 This version can be found in the joern repository
 
-##Use
+## Use
+
 The library is written in Kotlin but can be used from Java.
 The library take the File content (String) as an input.
 
@@ -16,7 +18,7 @@ The library take the File content (String) as an input.
 
 Different functions can then be called to retrieved the different Metrics
 
-##Computed Metrics
+## Computed Metrics
  List of Code Metrics:
  
  * Blank Line
@@ -30,8 +32,10 @@ Different functions can then be called to retrieved the different Metrics
  * Essential Complexity of all Function
  * FANIN
  * FANOUT
+ * Graph Edit Distance
 
 ## Other uses 
+
 This library uses the following function to compute the metrics that can be reuse in other context:
 
 * Function level
@@ -46,4 +50,4 @@ This library uses the following function to compute the metrics that can be reus
 
     * list of function names
     * list of Global variable
-    *  map of call made by a function
+    * map of call made by a function

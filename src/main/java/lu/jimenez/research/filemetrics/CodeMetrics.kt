@@ -32,6 +32,7 @@ import ast.ASTNode
 import ast.functionDef.FunctionDef
 import lu.jimenez.research.filemetrics.ast.GlobalASTWalker
 import lu.jimenez.research.filemetrics.function.MetricsFunctions
+import lu.jimenez.research.filemetrics.ged.CGFEditDistance
 import lu.jimenez.research.filemetrics.global.GlobalASTFunctions
 import lu.jimenez.research.filemetrics.node.NodeFunctions
 import org.antlr.v4.runtime.ANTLRInputStream
@@ -116,19 +117,22 @@ class CodeMetrics(val fileContent: String, listofNode: MutableList<ASTNode> = mu
             e.printStackTrace()
         } finally {
             if (listofNode.size == 0) {
-                val parser = ANTLRCModuleParserDriver()
-                val walker = GlobalASTWalker()
-                parser.addObserver(walker)
-
-                val inputStream = ANTLRInputStream(compatibleFileContent())
-                val lex = ModuleLexer(inputStream)
-                val token = TokenSubStream(lex)
-                parser.parseAndWalkTokenStream(token)
-                this.listofNode = walker.codeItems
+                this.listofNode = listOfNode(fileContent)
             } else this.listofNode = listofNode
         }
     }
 
+    fun listOfNode(file: String):MutableList<ASTNode>{
+        val parser = ANTLRCModuleParserDriver()
+        val walker = GlobalASTWalker()
+        parser.addObserver(walker)
+
+        val inputStream = ANTLRInputStream(compatibleFileContent(file))
+        val lex = ModuleLexer(inputStream)
+        val token = TokenSubStream(lex)
+        parser.parseAndWalkTokenStream(token)
+        return walker.codeItems
+    }
     /****************************************************************************************************************
      *                                                                                                              *
      * Simple Metrics                                                                                               *
@@ -326,9 +330,21 @@ class CodeMetrics(val fileContent: String, listofNode: MutableList<ASTNode> = mu
      *
      * @return corrected string
      */
-    fun compatibleFileContent(): String {
-        return Regex(" NULL").replace(fileContent, " 0")
+    fun compatibleFileContent(file: String): String {
+        return Regex(" NULL").replace(file, " 0")
     }
 
+    /****************************************************************************************************************
+     *                                                                                                              *
+     * GED                                                                                                *
+     *                                                                                                              *
+     ****************************************************************************************************************/
+    fun computeEditDistance(otherFile : String): Double {
+        return CGFEditDistance(listofNode, listOfNode(otherFile), false).computeEditDistance()
+    }
+
+    fun computeEditDistancelevensthein(otherFile : String): Double {
+        return CGFEditDistance(listofNode, listOfNode(otherFile), true).computeEditDistance()
+    }
 }
 
